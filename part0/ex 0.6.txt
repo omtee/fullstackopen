@@ -1,0 +1,5 @@
+clicking submit executes event handler script
+
+browser>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+script saves form data into database and reloads page
