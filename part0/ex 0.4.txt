@@ -1,0 +1,24 @@
+browser>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+POST request sends form data to the server
+server reads form and adds new note to database
+
+server>browser: URL redirect to https://studies.cs.helsinki.fi/exampleapp/notes
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server>browser: file: notes type:html
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server>browser: file: main.css type:css
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server>browser: file: main.js type:script
+
+browser executes main.js script file
+script requests data.json json file
+
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server>browser: file: data.json type:json
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/favicon.ico
+server>browser: file: favicon.ico type:ico
+
+browser executes script event handler
+event handler adds database elements to DOM
+browser renders DOM

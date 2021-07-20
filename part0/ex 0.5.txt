@@ -1,0 +1,18 @@
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server>browser: file: notes type:html
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server>browser: file: main.css type:css
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server>browser: file: spa.js type:script
+
+browser executes spa.js script file
+script requests data.json json file
+
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server>browser: file: data.json type:json
+browser>server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/favicon.ico
+server>browser: file: favicon.ico type:ico
+
+browser executes script event handler
+event handler adds database elements to DOM
+browser renders DOM
