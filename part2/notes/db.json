@@ -4,7 +4,7 @@
       "id": 1,
       "content": "HTML is easy",
       "date": "2019-05-30T17:30:31.098Z",
-      "important": true,
+      "important": false,
       "import": false
     },
     {
@@ -57,6 +57,12 @@
       "date": "2021-07-23T13:53:00.689Z",
       "important": false,
       "id": 9
+    },
+    {
+      "content": "jesbox",
+      "date": "2021-07-26T19:47:44.460Z",
+      "important": false,
+      "id": 10
     }
   ]
 }
