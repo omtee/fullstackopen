@@ -1,0 +1,28 @@
+GET http://localhost:3003/api/blogs/
+
+###
+GET http://localhost:3003/api/blogs/6101657b0f41b600150e9b67
+
+###
+DELETE http://localhost:3003/api/blogs/6101657b0f41b600150e9b67
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+  "title": "My blog",
+  "author": "Olli Teevee",
+  "url": "mybook.com",
+  "likes": 115
+}
+###
+PUT http://localhost:3003/api/blogs/6101657b0f41b600150e9b67 HTTP/1.1
+content-type: application/json
+
+{
+  "title": "My book",
+  "author": "Olli Tee",
+  "url": "mybook.com",
+  "likes": 15
+}
