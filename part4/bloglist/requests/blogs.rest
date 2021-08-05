@@ -1,0 +1,31 @@
+GET http://localhost:3003/api/blogs/
+
+###
+GET http://localhost:3003/api/blogs/6101657b0f41b600150e9b67
+
+###
+DELETE http://localhost:3003/api/blogs/610c48cf1be6c0284433f6cc
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGM2YTVjNGRjN2ZmMzI3ODdhMjUyOSIsImlhdCI6MTYyODIwMzgwM30.vkxJASlJey_ODUVZCLQWT_RO435iwPezzJlL1I2ekDs
+
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGM2YTVjNGRjN2ZmMzI3ODdhMjUyOSIsImlhdCI6MTYyODIwMzgwM30.vkxJASlJey_ODUVZCLQWT_RO435iwPezzJlL1I2ekDs
+
+{
+  "title": "Blog2222",
+  "author": "Olli Testiukko",
+  "url": "blog222.com",
+  "likes": 1351,
+  "userId": "610c4ee7343e440edc07bf64"
+}
+###
+PUT http://localhost:3003/api/blogs/6101657b0f41b600150e9b67 HTTP/1.1
+content-type: application/json
+
+{
+  "title": "My book",
+  "author": "Olli Tee",
+  "url": "mybook.com",
+  "likes": 15
+}
