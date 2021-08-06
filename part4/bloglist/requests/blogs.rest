@@ -4,20 +4,19 @@ GET http://localhost:3003/api/blogs/
 GET http://localhost:3003/api/blogs/6101657b0f41b600150e9b67
 
 ###
-DELETE http://localhost:3003/api/blogs/610c48cf1be6c0284433f6cc
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGM2YTVjNGRjN2ZmMzI3ODdhMjUyOSIsImlhdCI6MTYyODIwMzgwM30.vkxJASlJey_ODUVZCLQWT_RO435iwPezzJlL1I2ekDs
+DELETE http://localhost:3003/api/blogs/610cf7b80523990d64b71283
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGM3NjQ5YzVlNDI4MTcyODM5ODk4MiIsImlhdCI6MTYyODIzNjA1Nn0.cohoBhtYVC3rHq7AsbK7ZyIwpLz_8exyp8bU4brMPHU
 
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGM2YTVjNGRjN2ZmMzI3ODdhMjUyOSIsImlhdCI6MTYyODIwMzgwM30.vkxJASlJey_ODUVZCLQWT_RO435iwPezzJlL1I2ekDs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGQwMjQ1YzAwYjJmNDZjMDgwNDhiYiIsImlhdCI6MTYyODI0NjM0NH0.0ylzR6idWPh38Wv_gygDUG1O7IFsG7i8QB77123sAyc
 
 {
-  "title": "Blog2222",
-  "author": "Olli Testiukko",
-  "url": "blog222.com",
-  "likes": 1351,
-  "userId": "610c4ee7343e440edc07bf64"
+  "title": "Yet another blog",
+  "author": "Olli Testiakka",
+  "url": "blog4u.com",
+  "likes": 15
 }
 ###
 PUT http://localhost:3003/api/blogs/6101657b0f41b600150e9b67 HTTP/1.1

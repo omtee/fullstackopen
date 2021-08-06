@@ -9,7 +9,7 @@ content-type: application/json
 
 {
     "notes": [],
-    "username": "olli",
-    "name": "Olli Tee",
-    "password": "passsee"
+    "username": "inituser",
+    "name": "Initial User",
+    "password": "init"
 }
