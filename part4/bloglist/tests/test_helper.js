@@ -1,9 +1,5 @@
 const Blog = require('../models/blog')
-
-const initialBlogs = [
-  { 'title':'My book','author':'Olli Tee','url':'mybook.com','likes':15,'id':'6101b3300d668125b489e44a' },
-  { 'title':'My blog','author':'Olli Teevee','url':'mybook.com','likes':115,'id':'61099bc7d768d648cc3ce2a2' }
-]
+const User = require('../models/user')
 
 const nonExistingId = async () => {
   const blog = new Blog({ title: 'willremovethissoon', author: 'dadalicious', url: 'www.com', likes: 1 })
@@ -18,6 +14,11 @@ const blogsInDb = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(user => user.toJSON())
+}
+
 module.exports = {
-  initialBlogs, nonExistingId, blogsInDb
+  nonExistingId, blogsInDb, usersInDb
 }
