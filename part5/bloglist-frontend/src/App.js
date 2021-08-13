@@ -72,7 +72,9 @@ const App = () => {
   const handleDeleteBlog = async (id) => {
     const toDelete = blogs.find(blog => blog.id === id)
     try {
-      await blogService.remove(id)
+      console.log('trying to delete', id)
+      const response = await blogService.remove(id)
+      console.log('delete response', response)
       setBlogs(blogs.filter(blog => blog.id !== id))
       sendNotification(`blog "${toDelete.title}" by ${toDelete.author} deleted`)
     } catch (exception) {
@@ -90,9 +92,7 @@ const App = () => {
   }
 
   const loginComponent = () => (
-    <Togglable buttonLabel="log in">
-      <LoginForm handleLogin={handleLogin} />
-    </Togglable>
+    <LoginForm handleLogin={handleLogin} />
   )
 
   const blogFormRef = useRef()
@@ -104,7 +104,7 @@ const App = () => {
   )
 
   const blogsComponent = () => (
-    <div>
+    <div className="blog-list">
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog => <Blog key={blog.id} blog={blog} username={user.username}
