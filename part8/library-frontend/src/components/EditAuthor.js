@@ -15,11 +15,14 @@ const EditAuthor = (props) => {
 
   if (authors.loading)  {
     return <div>loading...</div>
+  } else if (!author) { // init states to be the first author
+    setAuthor(authors.data.allAuthors[0].name)
   }
   
   const submit = async (event) => {
     event.preventDefault()
     editAuthor({ variables: { name: author, setBornTo: parseInt(born) }})
+    setAuthor('')
     setBorn('')
   }
 
@@ -27,8 +30,8 @@ const EditAuthor = (props) => {
     <div>
       <h2>edit author</h2>
       <form onSubmit={submit}>
-        <select value={author} onChange={({ target }) => setAuthor(target.value)}>
-          {authors.data.allAuthors.map(a => <option value={a.name}>{a.name}</option>)}
+        <select name="author" onChange={({ target }) => setAuthor(target.value)}>
+          {authors.data.allAuthors.map(a => <option key={a.id} value={a.name}>{a.name}</option>)}
         </select>
         <div>
           born
