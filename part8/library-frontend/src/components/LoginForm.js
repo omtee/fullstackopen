@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useMutation } from '@apollo/client'
-import { LOGIN } from '../queries'
+import { useQuery, useMutation } from '@apollo/client'
+
+import { LOGIN, ME } from '../queries'
 
 const LoginForm = ({ show, setToken }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const me = useQuery(ME)
   const [login, result] = useMutation(LOGIN)
 
   useEffect(() => {
@@ -13,8 +15,9 @@ const LoginForm = ({ show, setToken }) => {
       const token = result.data.login.value
       setToken(token)
       localStorage.setItem('library-user-token', token)
+      me.refetch()
     }
-  }, [setToken, result.data])
+  }, [setToken, result.data, me])
 
   if (!show) {
     return null

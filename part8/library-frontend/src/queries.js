@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const ALL_AUTHORS = gql`
-query {
+query getAllAuthors {
   allAuthors  {
     name
     born
@@ -12,8 +12,8 @@ query {
 `
 
 export const ALL_BOOKS = gql`
-query {
-  allBooks  {
+query getAllBooks($genreToSearch: String) {
+  allBooks(genre: $genreToSearch)  {
     title
     author { name }
     published
@@ -23,19 +23,8 @@ query {
 }
 `
 
-export const BOOKS_BY_GENRE = gql`
-query allBooksByGenre($genreToSearch: String!) {
-  allBooks(genre: $genreToSearch)  {
-    title
-    author { name }
-    published
-    id
-  }
-}
-`
-
 export const ADD_BOOK = gql`
-mutation addBookMutation($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
+mutation addBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
   addBook(
     title: $title,
     author: $author,
@@ -43,7 +32,7 @@ mutation addBookMutation($title: String!, $author: String!, $published: Int!, $g
     genres: $genres
   ) {
     title
-    author { name }
+    author { name born bookCount id }
     published
     genres
     id
@@ -52,7 +41,7 @@ mutation addBookMutation($title: String!, $author: String!, $published: Int!, $g
 `
 
 export const EDIT_AUTHOR = gql`
-mutation editAuthorMutation($name: String!, $setBornTo: Int!) {
+mutation editAuthor($name: String!, $setBornTo: Int!) {
   editAuthor(
     name: $name,
     setBornTo: $setBornTo
@@ -67,7 +56,6 @@ mutation editAuthorMutation($name: String!, $setBornTo: Int!) {
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password)  {
-      username
       value
     }
   }
