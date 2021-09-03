@@ -59,8 +59,17 @@ export const ADD_BOOK = gql`
     ) {
       ...BookDetails
     }
-    ${BOOK_DETAILS}
   }
+  ${BOOK_DETAILS}
+`
+
+export const BOOK_ADDED = gql`
+  subscription bookAddedSubscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
 `
 
 export const LOGIN = gql`

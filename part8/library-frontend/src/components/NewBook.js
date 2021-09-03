@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/client'
+import { useApolloClient, useMutation, useSubscription } from '@apollo/client'
 
-import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS, ME } from '../queries'
+import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED, ME } from '../queries'
 
 const NewBook = ({ show }) => {
   const [title, setTitle] = useState('')
@@ -9,6 +9,7 @@ const NewBook = ({ show }) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+  const client = useApolloClient()
 
   const [ addBook ] = useMutation(ADD_BOOK, {
     update: (cache, response) => {
@@ -19,6 +20,7 @@ const NewBook = ({ show }) => {
   const updateCacheWith = (cache, addedBook) => {
     const includedIn = (set, object) => set.map(o => o.id).includes(object.id)
 
+    // add new author to cache
     const authorsInCache = cache.readQuery({ query: ALL_AUTHORS })
     if (!includedIn(authorsInCache.allAuthors, addedBook.author)) {
       cache.writeQuery({
@@ -27,6 +29,7 @@ const NewBook = ({ show }) => {
       })
     }
 
+    // add new book to cache
     const booksInCache = cache.readQuery({ query: ALL_BOOKS })
     if (!includedIn(booksInCache.allBooks, addedBook)) {
       cache.writeQuery({
@@ -35,6 +38,7 @@ const NewBook = ({ show }) => {
       })
     }
 
+    // add new book to recommended cache
     const meInCache = cache.readQuery({ query: ME })
 
     if (addedBook.genres.includes(meInCache.me.favoriteGenre)) {
@@ -52,6 +56,14 @@ const NewBook = ({ show }) => {
       }
     }
   }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      window.alert(`New book '${addedBook.title}' by ${addedBook.author.name} was added`)
+      updateCacheWith(client, addedBook)
+    }
+  })
 
   const submit = async (event) => {
     event.preventDefault()
