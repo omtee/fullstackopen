@@ -11,12 +11,12 @@ const SegmentDiagnoses: React.FC<{ codes: Array<Diagnosis['code']> | undefined }
 
   return (
     <ul>
-      {codes?.map(diagnosisCode => {
+      {codes?.map((diagnosisCode, idx) => {
         const diagnosis = diagnoses[diagnosisCode];
         if (diagnosis) {
-          return <li>{diagnosis.code} {diagnosis.name}</li>;
+          return <li key={idx}>{diagnosis.code} {diagnosis.name}</li>;
         } else {
-          return <li>Could not find {diagnosisCode}</li>;
+          return <li key={idx}>Could not find {diagnosisCode}</li>;
         }
       })}
     </ul>

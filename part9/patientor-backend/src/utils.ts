@@ -176,7 +176,7 @@ const parseSickLeaveEndDate = (date: unknown): string => {
 };
 
 const parseHealthCheckRating = (rating: unknown): HealthCheckRating => {
-  if (!rating || !isHealthCheckRating(rating)) {
+  if (typeof rating === undefined || !isHealthCheckRating(rating)) {
     throw new Error('Incorrect or missing health check rating: ' + rating);
   }
   return rating;

@@ -3,17 +3,43 @@ import axios from "axios";
 
 import { Diagnosis, Entry, Gender, Patient } from "../types";
 import { apiBaseUrl } from "../constants";
-import { setDiagnosesList, setPatientInfo, useStateValue } from "../state";
+import { addEntry, setDiagnosesList, setPatientInfo, useStateValue } from "../state";
 import { useParams } from "react-router";
-import { Container, Icon } from "semantic-ui-react";
+import { Button, Container, Icon } from "semantic-ui-react";
 import HospitalSegment from "./HospitalSegment";
 import HealthCheckSegment from "./HealthCheckSegment";
 import OccupationalHealthcareSegment from "./OccupationalHealthcareSegment";
 import { assertNever } from "../utils";
+import AddEntryModal from "../AddEntryModal";
+import { EntryHealthCheckFormValues } from "../AddEntryModal/AddHealthCheckEntryForm";
 
 const PatientPage = () => {
   const [{ patientInfo, diagnoses }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
+
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const submitNewEntry = async (values: EntryHealthCheckFormValues) => {
+    try {
+      const { data: updatedPatient } = await axios.post<Patient>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      dispatch(addEntry(updatedPatient));
+      closeModal();
+    } catch (e) {
+      console.error(e.response?.data || 'Unknown Error');
+      setError(e.response?.data?.error || 'Unknown error');
+    }
+  };
   
   const patient: Patient = patientInfo[id];
   
@@ -23,7 +49,6 @@ const PatientPage = () => {
         const { data: patientInformationFromApi } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        console.log('patient info', patientInformationFromApi);
         dispatch(setPatientInfo(patientInformationFromApi));
       } catch (e) {
         console.error(e);
@@ -89,6 +114,13 @@ const PatientPage = () => {
             ssn: {patient.ssn} <br />
             occupation: {patient.occupation}
           </p>
+          <AddEntryModal
+            modalOpen={modalOpen}
+            onSubmit={submitNewEntry}
+            error={error}
+            onClose={closeModal}
+          />
+          <Button onClick={() => openModal()}>Add New Entry</Button>
           <h3>entries</h3>
           {patient.entries?.map(e => <EntryDetails key={e.id} entry={e} />)}
         </Container>
