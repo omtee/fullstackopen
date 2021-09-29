@@ -10,31 +10,43 @@ import HospitalSegment from "./HospitalSegment";
 import HealthCheckSegment from "./HealthCheckSegment";
 import OccupationalHealthcareSegment from "./OccupationalHealthcareSegment";
 import { assertNever } from "../utils";
-import AddEntryModal from "../AddEntryModal";
-import { EntryHealthCheckFormValues } from "../AddEntryModal/AddHealthCheckEntryForm";
+import { AddEntryModal, EntryFormValues } from "../AddEntryModal/AddEntryModal";
 
 const PatientPage = () => {
   const [{ patientInfo, diagnoses }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
 
-  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [modalOpenHealthCheck, setModalOpenHealthCheck] = React.useState<boolean>(false);
+  const [modalOpenHospital, setModalOpenHospital] = React.useState<boolean>(false);
+  const [modalOpenHealthcare, setModalOpenHealthcare] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | undefined>();
 
-  const openModal = (): void => setModalOpen(true);
+  const openModalHealthCheck = (): void => setModalOpenHealthCheck(true);
+  const openModalHospital = (): void => setModalOpenHospital(true);
+  const openModalHealthcare = (): void => setModalOpenHealthcare(true);
 
-  const closeModal = (): void => {
-    setModalOpen(false);
+  const closeModalHealthCheck = (): void => {
+    setModalOpenHealthCheck(false);
+    setError(undefined);
+  };
+  const closeModalHospital = (): void => {
+    setModalOpenHospital(false);
+    setError(undefined);
+  };
+  const closeModalHealthcare = (): void => {
+    setModalOpenHealthcare(false);
     setError(undefined);
   };
 
-  const submitNewEntry = async (values: EntryHealthCheckFormValues) => {
+  const submitNewEntry = async (values: EntryFormValues) => {
     try {
       const { data: updatedPatient } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
         values
       );
       dispatch(addEntry(updatedPatient));
-      closeModal();
+      closeModalHealthCheck();
+      closeModalHospital();
     } catch (e) {
       console.error(e.response?.data || 'Unknown Error');
       setError(e.response?.data?.error || 'Unknown error');
@@ -115,12 +127,29 @@ const PatientPage = () => {
             occupation: {patient.occupation}
           </p>
           <AddEntryModal
-            modalOpen={modalOpen}
+            entryType="HealthCheck"
+            modalOpen={modalOpenHealthCheck}
             onSubmit={submitNewEntry}
             error={error}
-            onClose={closeModal}
+            onClose={closeModalHealthCheck}
           />
-          <Button onClick={() => openModal()}>Add New Entry</Button>
+          <AddEntryModal
+            entryType="Hospital"
+            modalOpen={modalOpenHospital}
+            onSubmit={submitNewEntry}
+            error={error}
+            onClose={closeModalHospital}
+          />
+          <AddEntryModal
+            entryType="OccupationalHealthcare"
+            modalOpen={modalOpenHealthcare}
+            onSubmit={submitNewEntry}
+            error={error}
+            onClose={closeModalHealthcare}
+          />
+          <Button onClick={() => openModalHealthCheck()}>Add New HealthCheck Entry</Button>
+          <Button onClick={() => openModalHospital()}>Add New Hospital Entry</Button>
+          <Button onClick={() => openModalHealthcare()}>Add New Healthcare Entry</Button>
           <h3>entries</h3>
           {patient.entries?.map(e => <EntryDetails key={e.id} entry={e} />)}
         </Container>

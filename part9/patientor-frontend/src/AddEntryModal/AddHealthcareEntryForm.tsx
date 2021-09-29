@@ -2,38 +2,41 @@ import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, NumberField, DiagnosisSelection } from "../AddPatientModal/FormField";
-import { HealthCheckEntry } from "../types";
+import { TextField, DiagnosisSelection } from "../AddPatientModal/FormField";
+import { OccupationalHealthcareEntry } from "../types";
 import { useStateValue } from "../state";
 
 /*
  * use type Entry, but omit id,
  * because those are irrelevant for new patient entry object.
  */
-export type EntryHealthCheckFormValues = Omit<HealthCheckEntry, "id">;
+export type EntryHealthcareFormValues = Omit<OccupationalHealthcareEntry, "id">;
 
 interface Props {
-  onSubmit: (values: EntryHealthCheckFormValues) => void;
+  onSubmit: (values: EntryHealthcareFormValues) => void;
   onCancel: () => void;
 }
 
-export const AddHealthCheckEntryForm = ({ onSubmit, onCancel } : Props ) => {
+export const AddHealthcareEntryForm = ({ onSubmit, onCancel } : Props ) => {
   const [{ diagnoses }] = useStateValue();
   
   return (
     <Formik
       initialValues={{
-        type: "HealthCheck",
+        type: "OccupationalHealthcare",
         description: "",
         date: "",
         specialist: "",
-        healthCheckRating: 0,
+        employerName: "",
+        sickLeave: {
+          startDate: "",
+          endDate: ""
+        },
         diagnosisCodes: []
       }}
       onSubmit={onSubmit}
       validate={values => {
         const requiredError = "Field is required";
-        const healthCheckError = "Rating must be 0, 1, 2 or 3";
         const errors: { [field: string]: string } = {};
         if (!values.type || values.type.length < 2) {
           errors.type = requiredError;
@@ -47,11 +50,8 @@ export const AddHealthCheckEntryForm = ({ onSubmit, onCancel } : Props ) => {
         if (!values.specialist || values.specialist.length < 2) {
           errors.specialist = requiredError;
         }
-        if (!(values.healthCheckRating === 0
-           || values.healthCheckRating === 1
-           || values.healthCheckRating === 2
-           || values.healthCheckRating === 3)) {
-          errors.healthCheckRating = healthCheckError;
+        if (!values.employerName || values.employerName.length < 2) {
+          errors.employerName = requiredError;
         }
         return errors;
       }}
@@ -61,7 +61,7 @@ export const AddHealthCheckEntryForm = ({ onSubmit, onCancel } : Props ) => {
           <Form className="form ui">
             <Field
               label="Type"
-              placeholder="HealthCheck"
+              placeholder="OccupationalHealthcare"
               name="type"
               component={TextField}
               disabled={true}
@@ -70,6 +70,12 @@ export const AddHealthCheckEntryForm = ({ onSubmit, onCancel } : Props ) => {
               label="Date"
               placeholder="YYYY-MM-DD"
               name="date"
+              component={TextField}
+            />
+            <Field
+              label="Employer name"
+              placeholder="Employer name"
+              name="employerName"
               component={TextField}
             />
             <Field
@@ -83,12 +89,18 @@ export const AddHealthCheckEntryForm = ({ onSubmit, onCancel } : Props ) => {
               placeholder="Description"
               name="description"
               component={TextField}
-            /><Field
-              label="Health rating"
-              name="healthCheckRating"
-              component={NumberField}
-              min={0}
-              max={3}
+            />
+            <Field
+              label="Sick leave start date"
+              placeholder="YYYY-MM-DD"
+              name="sickLeave.startDate"
+              component={TextField}
+            />
+            <Field
+              label="Sick leave end date"
+              placeholder="YYYY-MM-DD"
+              name="sickLeave.endDate"
+              component={TextField}
             />
             <DiagnosisSelection
               setFieldValue={setFieldValue}
@@ -119,4 +131,4 @@ export const AddHealthCheckEntryForm = ({ onSubmit, onCancel } : Props ) => {
   );
 };
 
-export default AddHealthCheckEntryForm;
+export default AddHealthcareEntryForm;

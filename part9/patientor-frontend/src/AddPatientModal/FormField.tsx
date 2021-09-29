@@ -36,16 +36,18 @@ export const SelectField = ({
 interface TextProps extends FieldProps {
   label: string;
   placeholder: string;
+  disabled?: boolean;
 }
 
 export const TextField= ({
   field,
   label,
-  placeholder
+  placeholder,
+  disabled=false
 }: TextProps) => (
   <Form.Field>
     <label>{label}</label>
-    <Field placeholder={placeholder} {...field} />
+    <Field placeholder={placeholder} {...field} disabled={disabled} />
     <div style={{ color:'red' }}>
       <ErrorMessage name={field.name} />
     </div>
